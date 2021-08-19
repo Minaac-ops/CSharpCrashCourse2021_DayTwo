@@ -15,27 +15,52 @@ namespace CrashCourse2021ExercisesDayTwo.Services
 
         internal double CurrentCreditValue()
         {
-            throw new NotImplementedException();
+            return credit.Value;
         }
 
         internal void AddCredit(double valueToAdd)
         {
-            throw new NotImplementedException();
+            double tooMuchAdded = credit.MaxAllowed-credit.Value;
+            if (valueToAdd < 0)
+            {
+                throw new ArgumentException(Constants.CreditToAddMustBeZeroOrMoreException);
+            } else if (valueToAdd>tooMuchAdded)
+            {
+                throw new ArgumentException(Constants.CreditCannotExceedMaxValueException);
+            }
+            else
+            {
+                this.credit.Value = valueToAdd + CurrentCreditValue();
+            }
         }
 
         internal void RemoveCredit(double valueToRemove)
         {
-            throw new NotImplementedException();
+            if (valueToRemove<0)
+            {
+                throw new ArgumentException(Constants.CreditToRemoveMustBeZeroOrMoreException);
+            } else if ((credit.Value-valueToRemove)<0)
+            {
+                throw new ArgumentException(Constants.CreditCannotBeLessThenZeroException);
+            }
+            this.credit.Value = CurrentCreditValue() - valueToRemove;
         }
 
         internal double CurrentMaxAllowedValue()
         {
-            throw new NotImplementedException();
+            return credit.MaxAllowed;
         }
 
         internal void SetMaxAllowedValue(double maxValue)
         {
-            throw new NotImplementedException();
+            if (maxValue>1000000000)
+            {
+                throw new ArgumentException(Constants.CreditMaxValueCannotBeAboveABillionException);
+            } else if (maxValue < 0)
+            {
+                throw new ArgumentException(Constants.CreditMaxValueMustBeAboveZeroException);
+            }
+            this.credit.MaxAllowed = maxValue;
         }
     }
 }
